@@ -9,8 +9,9 @@ namespace ManejoPresupuesto.Servicios
     {
         Task ActualizarCategoria(Categoria categoria);
         Task Borrar(int id);
+        Task<int> Contar(int usuarioId);
         Task Crear(Categoria categoria);
-        Task<IEnumerable<Categoria>> Obtener(int usuarioId);
+        Task<IEnumerable<Categoria>> Obtener(int usuarioId, PaginacionViewModel paginacionViewModel);
         Task<IEnumerable<Categoria>> ObtenerCategorias(int usuarioId, TipoOperacion tipoOperacionId);
         Task<Categoria> ObtenerPorId(int id, int usuarioId);
     }
@@ -24,6 +25,8 @@ namespace ManejoPresupuesto.Servicios
         private readonly string obtenerCategoriaPorId = $@"SELECT * FROM Categorias WHERE Id = @Id AND UsuarioId = @UsuarioId";
         private readonly string actualizarCategoria = $@"UPDATE Categorias SET Nombre = @Nombre, TipoOperacionId = @TipoOperacionId WHERE Id = @Id";
         private readonly string borrarCategoria = $@"DELETE FROM Categorias WHERE Id = @Id";
+        private readonly string contarCategorias = $@"SELECT COUNT(*) FROM Categorias WHERE UsuarioId = @usuarioId";
+        
         public RepositorioCategorias(IConfiguration configuration)
         {
             this.connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -37,10 +40,22 @@ namespace ManejoPresupuesto.Servicios
 
         }
 
-        public async Task<IEnumerable<Categoria>> Obtener(int usuarioId)
+        public async Task<IEnumerable<Categoria>> Obtener(int usuarioId, PaginacionViewModel paginacionViewModel)
         {
             using var connection = new SqlConnection(connectionString);
-            return await connection.QueryAsync<Categoria>(obtenerCategorias, new {usuarioId});
+            return await connection.QueryAsync<Categoria>(@$"SELECT * FROM Categorias 
+                                                          WHERE UsuarioId = @usuarioId
+                                                          ORDER BY Nombre
+                                                          OFFSET {paginacionViewModel.RecordsASaltar} 
+                                                          ROW FETCH NEXT {paginacionViewModel.RecordsPorPagina}
+                                                          ROWS ONLY", 
+                                                          new {usuarioId});
+        }
+
+        public async Task<int> Contar(int usuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.ExecuteScalarAsync<int>(contarCategorias, new {usuarioId} );
         }
 
         public async Task<IEnumerable<Categoria>> ObtenerCategorias(int usuarioId, TipoOperacion tipoOperacionId)

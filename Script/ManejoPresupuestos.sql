@@ -293,3 +293,84 @@ begin
 
 end
 go
+
+create procedure Transacciones_Borrar
+	@Id int
+
+as
+
+begin
+
+	set nocount on;
+
+	declare @Monto decimal(18,2);
+	declare @CuentaId int;
+	declare @TipoOperacionId int;
+
+	SELECT @Monto = Monto, @CuentaId = CuentaId, @TipoOperacionId = cat.TipoOperacionId FROM Transacciones inner join Categorias cat ON cat.Id = Transacciones.CategoriaId WHERE Transacciones.Id = @Id;
+
+	declare @FactorMultiplicativo int = 1;
+
+	If(@TipoOperacionId = 2)
+		SET @FactorMultiplicativo = -1
+
+
+	SET @Monto = @Monto * @FactorMultiplicativo;
+
+	UPDATE Cuentas SET Balance -= @Monto WHERE Id = @CuentaId
+	
+	DELETE Transacciones WHERE Id = @Id;
+
+
+end
+
+go
+
+
+declare @fechaInicio date = '2022-09-01';
+declare @fechaFin date = '2022-09-30';
+declare @usuarioId int = 1;
+
+SELECT DATEDIFF(d, @fechaInicio, FechaTransaccion) / 7 + 1 as Semana, SUM(Monto) AS Monto 
+FROM Transacciones inner join Categorias cat on cat.id = Transacciones.CategoriaId WHERE Transacciones.UsuarioId = @usuarioId AND FechaTransaccion 
+BETWEEN @fechaInicio and @fechaFin GROUP BY DATEDIFF(d, @fechaInicio, FechaTransaccion) / 7, cat.TipoOperacionId
+
+DECLARE @usuarioId int = 1;
+DECLARE @Año int = 2022;
+
+SELECT MONTH(FechaTransaccion) as Mes, SUM(Monto) as Monto, cat.TipoOperacionId 
+FROM Transacciones INNER JOIN Categorias cat ON cat.Id = Transacciones.CategoriaId 
+WHERE Transacciones.UsuarioId = @usuarioId AND  YEAR(FechaTransaccion) = @Año GROUP BY MONTH(FechaTransaccion), cat.TipoOperacionId
+
+select * from  Usuarios
+
+create procedure CrearDatosUsuarioNuevo
+	@UsuarioId int
+as
+begin
+
+	set nocount on;
+
+	declare @Efectivo nvarchar(50) = 'Efectivo';
+	declare @CuentaDeBanco nvarchar(50) = 'Cuentas de banco';
+	declare @tarjetas nvarchar(50) = 'Tarjetas';
+
+	insert into TiposCuentas(Nombre, UsuarioId, Orden) values (@Efectivo, @UsuarioId, 1), (@CuentaDeBanco, @UsuarioId, 2), (@tarjetas, @UsuarioId, 3);
+
+	insert into Cuentas(Nombre, Balance, TipoCuentaId)
+	select Nombre, 0, Id From TiposCuentas Where UsuarioId = @UsuarioId;
+
+	insert into Categorias(Nombre, TipoOperacionId, UsuarioId)
+	values
+	('Libros', 2, @UsuarioId),
+	('Salario', 1, @UsuarioId),
+	('Comida', 2, @UsuarioId),
+	('Mesada', 1, @UsuarioId),
+	('Arriendo', 2, @UsuarioId),
+	('Mercado', 2, @UsuarioId),
+	('Diversión', 2, @UsuarioId)
+
+end
+go
+
+select * from Usuarios

@@ -19,7 +19,7 @@ namespace ManejoPresupuesto.Servicios
         private readonly string connectionString;
         private string crearCuenta = $@"INSERT INTO Cuentas (Nombre, TipoCuentaId, Descripcion, Balance) VALUES (@Nombre, @TipoCuentaId, @Descripcion, @Balance); SELECT SCOPE_IDENTITY();";
         private string buscarCuenta = $@"SELECT Cuentas.Id, Cuentas.Nombre, Cuentas.Balance, tc.Nombre AS TipoCuenta  FROM Cuentas INNER JOIN TiposCuentas tc ON tc.Id = Cuentas.TipoCuentaId WHERE tc.UsuarioId = @UsuarioId ORDER BY tc.Orden";
-        private string obtenerPorId = $@"SELECT Cuentas.Id, Cuentas.Nombre, Cuentas.Balance, Cuentas.Descripcion, tc.Id  FROM Cuentas INNER JOIN TiposCuentas tc ON tc.Id = Cuentas.TipoCuentaId WHERE tc.UsuarioId = @UsuarioId AND Cuentas.Id = @Id ";
+        private string obtenerPorId = $@"SELECT Cuentas.Id, Cuentas.Nombre, Cuentas.Balance, Cuentas.Descripcion, TipoCuentaId  FROM Cuentas INNER JOIN TiposCuentas tc ON tc.Id = Cuentas.TipoCuentaId WHERE tc.UsuarioId = @UsuarioId AND Cuentas.Id = @Id ";
         private string actualizarCuenta = $@"UPDATE Cuentas SET Nombre = @Nombre, Balance = @Balance, Descripcion = @Descripcion, TipoCuentaId = @TipoCuentaId WHERE Id = @Id;";
         private string borrarCuenta = $@"DELETE Cuentas WHERE Id = @Id";
         public RepositorioCuentas(IConfiguration configuration)

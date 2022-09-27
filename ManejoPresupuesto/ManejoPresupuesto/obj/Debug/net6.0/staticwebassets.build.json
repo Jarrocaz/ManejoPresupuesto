@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HR8JpSu9aNO/Wa/bBh0tbsRCuODDA8OdUv68a5iHaEU=",
+  "Hash": "tkf8YKRr0VBwsPAyGgoa7T5KQL1wcSV2FRG0U50ssfo=",
   "Source": "ManejoPresupuesto",
   "BasePath": "_content/ManejoPresupuesto",
   "Mode": "Default",
@@ -899,6 +899,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
+    },
+    {
+      "Identity": "D:\\Curso C# . Net Core MVC Udemy\\Manejo presupuesto\\ManejoPresupuesto\\ManejoPresupuesto\\wwwroot\\lib\\fullcalendar\\main.min.css",
+      "SourceId": "ManejoPresupuesto",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Curso C# . Net Core MVC Udemy\\Manejo presupuesto\\ManejoPresupuesto\\ManejoPresupuesto\\wwwroot\\",
+      "BasePath": "_content/ManejoPresupuesto",
+      "RelativePath": "lib/fullcalendar/main.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\fullcalendar\\main.min.css"
+    },
+    {
+      "Identity": "D:\\Curso C# . Net Core MVC Udemy\\Manejo presupuesto\\ManejoPresupuesto\\ManejoPresupuesto\\wwwroot\\lib\\fullcalendar\\main.min.js",
+      "SourceId": "ManejoPresupuesto",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Curso C# . Net Core MVC Udemy\\Manejo presupuesto\\ManejoPresupuesto\\ManejoPresupuesto\\wwwroot\\",
+      "BasePath": "_content/ManejoPresupuesto",
+      "RelativePath": "lib/fullcalendar/main.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\fullcalendar\\main.min.js"
     },
     {
       "Identity": "D:\\Curso C# . Net Core MVC Udemy\\Manejo presupuesto\\ManejoPresupuesto\\ManejoPresupuesto\\wwwroot\\lib\\jquery\\dist\\jquery.js",
